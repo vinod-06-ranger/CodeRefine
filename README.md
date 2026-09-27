@@ -1,50 +1,72 @@
-# CodeRefine[README.md](https://github.com/user-attachments/files/26330617/README.md)
 # CodeRefine 🔍
 
-> Paste your code. Get it reviewed, debugged, compiled, optimized, and rewritten — powered by Gemini AI.
+**CodeRefine** is an AI-powered developer tool that uses Google Gemini to analyze source code and provide feedback for code review, debugging, performance analysis, and refactoring.
 
-CodeRefine is an AI-powered web app that acts as your personal code assistant. It analyzes your code across multiple dimensions and explains everything in plain, simple language — no confusing jargon.
+The project combines a **React-based frontend** with a **FastAPI backend** and uses REST/JSON communication between the client and server.
 
----
+> **Project status:** This is a student/learning project and is still under development.
 
 ## ✨ Features
 
-| Feature | What it does |
-|--------|--------------|
-| 🔎 **Code Review** | Detects if the language is correct, checks for errors, explains them clearly, and provides corrected code |
-| 🐛 **Debug Mode** | Finds runtime bugs, generates a mock traceback, and gives a fix suggestion with the exact line number |
-| ▶️ **Compile / Run** | Simulates running your code and shows the expected terminal output or error — like a real compiler |
-| 📊 **Performance Analysis** | Gives Time & Space complexity (Big O), a performance score (0–100), and optimization suggestions |
-| ✏️ **Code Rewriter** | Refactors your legacy or messy code into clean, modern best practices for that language |
+| Feature | Description |
+|---|---|
+| 🔎 **Code Review** | Analyzes submitted code, identifies potential issues, explains them, and suggests corrected code |
+| 🐛 **Debug Assistant** | Uses Gemini to analyze code for possible bugs and provide debugging suggestions |
+| 📊 **Performance Analysis** | Estimates time and space complexity and provides optimization suggestions |
+| ✏️ **Code Rewriter** | Uses AI to refactor code into cleaner and more modern form |
+| ▶️ **Output Simulation** | Uses an LLM prompt to simulate expected program output or an error trace |
 
----
+## 🏗️ How It Works
+
+```
+User submits code
+        ↓
+React frontend
+        ↓
+REST / JSON request
+        ↓
+FastAPI backend
+        ↓
+Google Gemini API
+        ↓
+AI-generated analysis
+        ↓
+JSON response
+        ↓
+Frontend displays the result
+```
 
 ## 🛠️ Tech Stack
 
-| Layer | Technology |
-|-------|------------|
-| Backend | Python, FastAPI |
-| AI Engine | Google Gemini 2.5 Flash (`google-generativeai`) |
-| Frontend | React + Vite |
-| API Communication | REST (JSON) |
-| CORS | Enabled for all origins |
+### Frontend
+- React
+- JSX
+- CSS
+- React Router
 
----
+### Backend
+- Python
+- FastAPI
+- Uvicorn
+- REST API
+- CORS
+
+### AI
+- Google Gemini API
+- Gemini 2.5 Flash
 
 ## 📡 API Endpoints
 
-Base URL: `http://localhost:8000`
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/` | Backend health check |
+| POST | `/review` | Code review and correction suggestions |
+| POST | `/debug` | Bug analysis and debugging suggestions |
+| POST | `/compile` | AI-based output/error simulation |
+| POST | `/performance` | Complexity and optimization analysis |
+| POST | `/rewrite` | AI-based code refactoring |
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/` | Health check — confirms backend is running |
-| `POST` | `/review` | Full code review with error detection and correction |
-| `POST` | `/debug` | Bug analysis with traceback simulation and fix suggestions |
-| `POST` | `/compile` | Simulates code execution and returns terminal output |
-| `POST` | `/performance` | Returns time complexity, space complexity, score, and suggestions |
-| `POST` | `/rewrite` | Refactors code into modern, clean standards |
-
-### Request Body (for all POST endpoints)
+### Request Format
 
 ```json
 {
@@ -53,7 +75,7 @@ Base URL: `http://localhost:8000`
 }
 ```
 
-### Example Response — `/performance`
+### Example Performance Response
 
 ```json
 {
@@ -64,97 +86,102 @@ Base URL: `http://localhost:8000`
 }
 ```
 
----
+## 📁 Current Repository Structure
 
-## 🚀 Getting Started
+```
+CodeRefine/
+├── main.py
+├── App.jsx
+├── App.css
+├── main.jsx
+├── index.css
+└── README.md
+```
+
+> The repository is currently being reorganized into a cleaner frontend/backend structure. The React entry point references additional application components and pages that are part of the planned frontend structure.
+
+## 🚀 Backend Setup
 
 ### Prerequisites
 
 - Python 3.9+
-- Node.js (v18+) for the frontend
-- A valid **Google Gemini API Key**
+- A Google Gemini API key
 
-### Backend Setup
+### 1. Clone the repository
 
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/code-refine.git
-cd code-refine/backend
+git clone https://github.com/vinod-06-ranger/CodeRefine.git
+cd CodeRefine
+```
 
-# Install dependencies
+### 2. Install backend dependencies
+
+```bash
 pip install fastapi uvicorn google-generativeai
+```
 
-# Add your Gemini API key in main.py
-# genai.configure(api_key="YOUR_API_KEY")
+### 3. Configure the Gemini API key
 
-# Run the server
+Do **not** commit your real API key to GitHub.
+
+The backend should be configured with your Gemini API key through a secure environment variable or local configuration.
+
+For local development, never replace the placeholder in the repository with a real key before committing.
+
+### 4. Start the backend
+
+```bash
 uvicorn main:app --reload
 ```
 
-Backend runs at: `http://localhost:8000`
-
-### Frontend Setup
-
-```bash
-cd frontend
-
-# Install dependencies
-npm install
-
-# Start the dev server
-npm run dev
-```
-
-Frontend runs at: `http://localhost:5173`
-
----
-
-## 📁 Project Structure
+The API will be available at:
 
 ```
-code-refine/
-├── backend/
-│   └── main.py          # FastAPI backend with all AI endpoints
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   └── index.html
-└── README.md
+http://localhost:8000
 ```
 
----
+## ⚠️ Important Security Note
 
-## ⚠️ Important Note
+**Never expose your Gemini API key in source code or commit it to GitHub.**
 
-> **Never expose your API key publicly.**
-> Before pushing to GitHub, move your Gemini API key to an `.env` file and add `.env` to `.gitignore`.
+If a key has previously been exposed, revoke it and create a new one.
 
-```bash
-# .env
-GEMINI_API_KEY=your_actual_key_here
-```
+For a production-ready implementation, the API key should be loaded from an environment variable and the `.env` file should be excluded through `.gitignore`.
 
----
+## 🎯 What I Learned
 
-## 🔮 Future Plans
+This project explores:
 
-- [ ] User authentication and saved history
-- [ ] Support for more languages (Java, C++, JavaScript, etc.)
-- [ ] Side-by-side diff view for rewritten code
-- [ ] VS Code extension
-- [ ] Dark / Light mode toggle
-- [ ] Rate limiting and usage tracking
+- Building REST APIs with FastAPI
+- Connecting a React frontend to a Python backend
+- Working with JSON request/response data
+- Integrating generative AI into an application
+- Designing prompts for different developer-assistance tasks
+- Returning structured AI-generated results
+- Handling API errors and invalid requests
+- Thinking about time and space complexity
+- Refactoring and improving code with AI assistance
 
----
+## 🔮 Future Improvements
 
-## 🙌 Author
+- [ ] Complete and reorganize the React frontend
+- [ ] Add proper frontend package configuration
+- [ ] Move Gemini credentials fully to environment variables
+- [ ] Add authentication and user accounts
+- [ ] Add persistent analysis history
+- [ ] Add support for more programming languages
+- [ ] Add side-by-side code diff visualization
+- [ ] Add automated backend tests
+- [ ] Add rate limiting
+- [ ] Add safer execution through a sandbox instead of AI-based output simulation
+- [ ] Add deployment documentation
+- [ ] Build a VS Code extension
 
-Made by **Vinod** — B.Tech CSE Student, Hyderabad
+## 👨‍💻 Author
 
----
+**Vinod Kumar**  
+B.Tech Computer Science Engineering Student
 
 ## 📄 License
 
-This project is open source and available under the [MIT License](LICENSE).
+This project is available for educational and portfolio purposes.
