@@ -14,12 +14,14 @@ export default function Debugger() {
     const [code, setCode] = useState('def calculate_total(items):\n    total = 0\n    for item in items:\n        total += item"price" # SyntaxError expected\n    return total');
     const [isDebugging, setIsDebugging] = useState(false);
     const [debugResult, setDebugResult] = useState('');
+    const [isError, setIsError] = useState(false);
     const [language, setLanguage] = useState(LANGUAGES[0]);
     const [isLangOpen, setIsLangOpen] = useState(false);
 
     const startDebugging = async () => {
         setIsDebugging(true);
         setDebugResult('');
+        setIsError(false);
 
         try {
             const response = await fetch("http://127.0.0.1:8000/debug", {
@@ -31,6 +33,7 @@ export default function Debugger() {
             const data = await response.json();
             setDebugResult(data.feedback);
         } catch (error) {
+            setIsError(true);
             setDebugResult(`Error connecting to debugger backend: ${error.message}`);
         } finally {
             setIsDebugging(false);
@@ -116,7 +119,7 @@ export default function Debugger() {
                     </div>
                     <div className="flex-1 p-4 bg-black/50 overflow-y-auto font-mono text-sm whitespace-pre-wrap">
                         {debugResult ? (
-                            <div className="text-red-400">
+                            <div className={isError ? "text-red-400" : "text-white leading-relaxed"}>
                                 {debugResult}
                             </div>
                         ) : (

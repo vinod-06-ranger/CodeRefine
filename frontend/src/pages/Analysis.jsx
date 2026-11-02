@@ -16,6 +16,7 @@ export default function Analysis() {
     const [language, setLanguage] = useState(LANGUAGES[0]);
     const [isLangOpen, setIsLangOpen] = useState(false);
     const [feedback, setFeedback] = useState("");
+    const [isError, setIsError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     const analyzeCode = async () => {
@@ -23,6 +24,7 @@ export default function Analysis() {
 
         setIsLoading(true);
         setFeedback("");
+        setIsError(false);
 
         try {
             const response = await fetch("http://127.0.0.1:8000/review", {
@@ -34,6 +36,7 @@ export default function Analysis() {
             const data = await response.json();
             setFeedback(data.feedback);
         } catch (error) {
+            setIsError(true);
             setFeedback("Error connecting to backend");
             console.error(error);
         } finally {
@@ -130,7 +133,7 @@ export default function Analysis() {
                                 <p>Generating insights...</p>
                             </div>
                         ) : feedback ? (
-                            <div className={feedback.includes("Error") ? "text-red-400" : "text-gray-300"}>
+                            <div className={isError ? "text-red-400" : "text-white leading-relaxed"}>
                                 {feedback}
                             </div>
                         ) : (
